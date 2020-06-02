@@ -185,8 +185,8 @@
  * INCBIN(Foo, "foo.txt");
  *
  * // Now you have the following symbols:
- * // const unsigned char gFooData[];
- * // const unsigned char *const gFooEnd;
+ * // const char gFooData[];
+ * // const char *const gFooEnd;
  * // const unsigned int gFooSize;
  * @endcode
  *
@@ -197,8 +197,8 @@
  * INCBIN(Foo, "foo.txt");
  *
  * // Now you have the following symbols instead:
- * // const unsigned char incbinFooData[];
- * // const unsigned char *const incbinFooEnd;
+ * // const char incbinFooData[];
+ * // const char *const incbinFooEnd;
  * // const unsigned int incbinFooSize;
  * @endcode
  */
@@ -219,8 +219,8 @@
  * INCBIN(Foo, "foo.txt");
  *
  * // Now you have the following symbols:
- * // const unsigned char <prefix>FooData[];
- * // const unsigned char *const <prefix>FooEnd;
+ * // const char <prefix>FooData[];
+ * // const char *const <prefix>FooEnd;
  * // const unsigned int <prefix>FooSize;
  * @endcode
  *
@@ -231,8 +231,8 @@
  * INCBIN(foo, "foo.txt");
  *
  * // Now you have the following symbols:
- * // const unsigned char <prefix>foo_data[];
- * // const unsigned char *const <prefix>foo_end;
+ * // const char <prefix>foo_data[];
+ * // const char *const <prefix>foo_end;
  * // const unsigned int <prefix>foo_size;
  * @endcode
  */
@@ -294,17 +294,17 @@
  * INCBIN_EXTERN(Foo);
  *
  * // Now you have the following symbols:
- * // extern const unsigned char <prefix>FooData[];
- * // extern const unsigned char *const <prefix>FooEnd;
+ * // extern const char <prefix>FooData[];
+ * // extern const char *const <prefix>FooEnd;
  * // extern const unsigned int <prefix>FooSize;
  * @endcode
  */
 #define INCBIN_EXTERN(NAME) \
-    INCBIN_EXTERNAL const INCBIN_ALIGN unsigned char \
+    INCBIN_EXTERNAL const INCBIN_ALIGN char \
         INCBIN_CONCATENATE( \
             INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
             INCBIN_STYLE_IDENT(DATA))[]; \
-    INCBIN_EXTERNAL const INCBIN_ALIGN unsigned char *const \
+    INCBIN_EXTERNAL const INCBIN_ALIGN char *const \
     INCBIN_CONCATENATE( \
         INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
         INCBIN_STYLE_IDENT(END)); \
@@ -329,8 +329,8 @@
  * INCBIN(Icon, "icon.png");
  *
  * // Now you have the following symbols:
- * // const unsigned char <prefix>IconData[];
- * // const unsigned char *const <prefix>IconEnd;
+ * // const char <prefix>IconData[];
+ * // const char *const <prefix>IconEnd;
  * // const unsigned int <prefix>IconSize;
  * @endcode
  *
