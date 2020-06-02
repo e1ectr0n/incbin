@@ -279,6 +279,34 @@
                 INCBIN_STYLE_IDENT, \
                 TYPE)))
 
+/* Generate references for C */
+#define INCBIN_EXTERN_C(NAME) \
+    INCBIN_EXTERNAL const INCBIN_ALIGN char \
+        INCBIN_CONCATENATE( \
+            INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
+            INCBIN_STYLE_IDENT(DATA))[]; \
+    INCBIN_EXTERNAL const INCBIN_ALIGN char *const \
+    INCBIN_CONCATENATE( \
+        INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
+        INCBIN_STYLE_IDENT(END)); \
+    INCBIN_EXTERNAL const unsigned int \
+        INCBIN_CONCATENATE( \
+            INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
+            INCBIN_STYLE_IDENT(SIZE))
+
+/* Generate references for C++ (including std::string_view wrapper) */
+#if defined(__cplusplus)
+#define INCBIN_EXTERN_CPP(NAME) \
+    INCBIN_EXTERN_C(NAME); \
+    const std::string_view NAME{ \
+        INCBIN_CONCATENATE( \
+            INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
+            INCBIN_STYLE_IDENT(DATA)), \
+        INCBIN_CONCATENATE( \
+            INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
+            INCBIN_STYLE_IDENT(SIZE))}
+#endif
+
 /**
  * @brief Externally reference binary data included in another translation unit.
  *
@@ -299,19 +327,12 @@
  * // extern const unsigned int <prefix>FooSize;
  * @endcode
  */
+#if defined(__cplusplus)
 #define INCBIN_EXTERN(NAME) \
-    INCBIN_EXTERNAL const INCBIN_ALIGN char \
-        INCBIN_CONCATENATE( \
-            INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
-            INCBIN_STYLE_IDENT(DATA))[]; \
-    INCBIN_EXTERNAL const INCBIN_ALIGN char *const \
-    INCBIN_CONCATENATE( \
-        INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
-        INCBIN_STYLE_IDENT(END)); \
-    INCBIN_EXTERNAL const unsigned int \
-        INCBIN_CONCATENATE( \
-            INCBIN_CONCATENATE(INCBIN_PREFIX, NAME), \
-            INCBIN_STYLE_IDENT(SIZE))
+    INCBIN_EXTERN_CPP(NAME)
+#else
+    INCBIN_EXTERN_C(NAME)
+#endif
 
 /**
  * @brief Include a binary file into the current translation unit.
